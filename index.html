@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pomodorock</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="./static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="./static/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+<style>
+	.alert {
+		font-variant: small-caps;
+	}
+</style>
+</head>
+<body>
+	<div class="container">
+		<section class="page-header">
+		<h1>Welcome to your Pomodorock Board!</h1>
+		</section>
+
+		<div id="timer-alert-pomodoro" class="alert alert-block alert-error fade in hide">
+			<strong>Pomodoro is done! Now, have a short break.</strong>
+		</div>
+
+		<div id="timer-alert-break" class="alert alert-block alert-success fade in hide">
+			<strong>Break is over. Now back to work...</strong>
+		</div>
+
+		<section class="row">
+			<div class="span3">
+				<h3>timer</h3>
+				<div class="btn-group">
+					<button data-time="25" data-alert-name="pomodoro" class="btn-start btn btn-mini btn-success"><i class="icon-play icon-white"></i> 25mn work</button>
+					<button data-time="5" data-alert-name="break" class="btn-start btn btn-mini btn-success"><i class="icon-play icon-white"></i> 5mn break</button>
+					<button id="btn-stop" class="btn btn-mini btn-warning"><i class="icon-stop"></i> </button>
+				</div>
+				<div>
+					Time: <span id="time">waiting...</span>
+				</div>
+				<div class="bar"></div>
+			</div>
+
+			<div class="span4">
+				<h1 id="pomodoros"></h1>
+				<p>Pomodoros</p>
+				<button class="btn incr btn-primary btn-large" data-target="pomodoros"><i class="icon-plus icon-white"></i></button>
+				<button class="btn decr btn-danger btn-small" data-target="pomodoros"><i class="icon-minus icon-white"></i></button>
+
+			</div>
+			<div class="span4">
+				<h1 id="interruptions"></h1>
+				<p>Interruptions</p>
+				<button class="btn incr btn-primary btn-large" data-target="interruptions"><i class="icon-plus icon-white"></i></button>
+				<button class="btn decr btn-danger btn-small" data-target="interruptions"><i class="icon-minus icon-white"></i></button>
+			</div>
+		</section>
+
+	</div>
+
+<script src="./static/js/jquery.min.js"></script>
+<script src="./static/js/bootstrap.min.js"></script>
+<script src="./static/js/moment.min.js"></script>
+<script src="./static/js/jquery.sparkline.min.js"></script>
+<script src="./static/js/bankersbox.min.js"></script>
+<script>
+var time = moment().startOf('hour').add('minutes', 25);
+var alert_name = "pomodoro";
+var interval;
+var bb = new BankersBox();
+
+function zip(arrays) {
+    return arrays[0].map(function(_,i){
+        return arrays.map(function(array){return array[i]})
+    });
+}
+
+$(document).ready(function() {
+
+	refresh();
+
+	$('.btn-start').click(function() {
+		$('.alert').hide();
+		time = moment().startOf('hour').add('seconds', $(this).attr('data-time'));
+		alert_name = $(this).attr('data-alert-name');
+		$('#time').html(time.format('mm:ss'));
+		interval = setInterval("updateTimer()", 1000);
+	});
+
+	$('#btn-stop').click(function() {
+		$('.alert').hide();
+		resetTimer();
+	})
+
+	$('.incr').click(function() {
+		incrementCounter($(this));
+	});
+	$('.decr').click(function() {
+		decrementCounter($(this))
+	});
+
+});
+
+function incrementCounter(element) {
+	var target = element.attr("data-target");
+	bb.incr(getKey(target));
+	refresh();
+}
+
+function decrementCounter(element) {
+	var target = $(element).attr("data-target");
+	bb_key = getKey(target);
+	if (bb.get(bb_key) == 0) return;
+	bb.decr(bb_key);
+	refresh();
+}
+
+function getKey(key) {
+	return moment().format('YYYY-MM-DD') + ':' + key;
+}
+
+function refreshKey(key) {
+	var bb_key = getKey(key);
+	if (!bb.exists(bb_key)) {
+		bb.set(bb_key, 0);
+	}
+	$('#'+key).html(bb.get(bb_key));
+}
+
+function getStats() {
+	var pomodoros = [];
+	var interruptions = [];
+	var keys = bb.keys();
+	keys.sort();
+
+	for (var i = 0; i < keys.length; i++) {
+		var key = keys[i];
+		if (key.indexOf(":pomodoros") !== -1) {
+			pomodoros.push(bb.get(key));
+		}
+		if (key.indexOf(":interruptions") !== -1) {
+			interruptions.push(bb.get(key));
+		}
+	};
+
+	var data = zip([pomodoros, interruptions]);
+	console.log(pomodoros);
+	console.log(interruptions);
+
+	$('.bar').sparkline(data, { type: 'bar' });
+}
+
+function refresh() {
+	refreshKey('pomodoros');
+	refreshKey('interruptions');
+	getStats();
+}
+
+/* Timer functions */
+function updateTimer() {
+	time.subtract(1, 'seconds');
+	$('#time').html(time.format('mm:ss'));
+	if (time.minute() == 0 && time.seconds() == 0) {
+		notify();
+		resetTimer();
+	}
+}
+function resetTimer() {
+	//time = moment().startOf('hour').add('minutes', 25);
+	$('#time').html('waiting...');
+	clearInterval(interval);
+}
+function notify() {
+	$('#timer-alert-'+alert_name).show();
+	var snd = new Audio("./static/tada.wav");
+	snd.play();
+}
+
+</script>
+</body>
+</html>
