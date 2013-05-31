@@ -17,7 +17,7 @@ Pomodorock is distributed under the terms of the [WTFPL](http://www.wtfpl.net/).
 
 * Browse [http://brunobord.github.io/pomodorock/](http://brunobord.github.io/pomodorock/) **OR**
 * Put this files on a web server where you can access the "index.html" page **OR**
-* Fork the project and host it on github: ``https://username.github.io/pomodorock``
+* Fork the project and host it on github: ``http://username.github.io/pomodorock``
 
 ### Use
 
