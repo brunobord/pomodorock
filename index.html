@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="./static/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="./static/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+<link href="./static/css/font-awesome.css" rel="stylesheet" media="screen">
 <style>
 @import url(http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
 	body {
@@ -42,12 +43,13 @@
 		</div>
 
 		<section class="row">
-			<div class="span3">
+			<div class="span4">
 				<h3>Timer</h3>
-				<div class="btn-group">
-					<button data-time="25" data-alert-name="pomodoro" class="btn-start btn btn-mini btn-success"><i class="icon-play icon-white"></i> 25mn work</button>
-					<button data-time="5" data-alert-name="break" class="btn-start btn btn-mini btn-success"><i class="icon-play icon-white"></i> 5mn break</button>
-					<button id="btn-stop" class="btn btn-mini btn-warning"><i class="icon-stop"></i> </button>
+				<div class="btn-toolbar">
+					<button data-time="25" data-alert-name="pomodoro" title="25mn work" class="btn-start btn"><i class="icon-desktop icon-white"></i></button>
+					<button data-time="5" data-alert-name="break" title="5mn short break" class="btn-start btn"><i class="icon-coffee icon-white"></i></button>
+					<button data-time="30" data-alert-name="break" title="30mn long break" class="btn-start btn"><i class="icon-rocket icon-white"></i></button>
+					<button id="btn-stop" class="btn btn-warning"><i class="icon-stop"></i> </button>
 				</div>
 				<div>
 					<i class="icon-time"></i> <span id="time">waiting...</span>
