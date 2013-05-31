@@ -152,7 +152,7 @@ $(document).ready(function() {
 		decrementCounter($(this))
 	});
 
-	$('#db-operations').click(function() { $('.db-operations').toggle();})
+	$('#db-operations').click(function() { $('.db-operations').toggle(); $('.on-restore, .on-backup, textarea#dbcontent, .dbcontent').hide();})
 	$('#backup').click(function() {
 		$('textarea#dbcontent').val(localStorage.dumps());
 		$('.on-restore').hide();
@@ -164,8 +164,8 @@ $(document).ready(function() {
 	});
 	$('#restore').click(function() {
 		localStorage.loads($('textarea#dbcontent').val());
-		$('.on-restore, .on-backup, textarea#dbcontent').hide();
-		window.setTimeout(refresh, 1000);
+		$('.on-restore, .on-backup, textarea#dbcontent, .dbcontent').hide();
+		window.setTimeout(refresh, 1500);
 	})
 
 });
