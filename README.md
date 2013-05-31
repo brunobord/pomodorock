@@ -2,6 +2,10 @@
 
 A single webpage pomodoro timer / tracker.
 
+## License
+
+Pomodorock is distributed under the terms of the [WTFPL](http://www.wtfpl.net/).
+
 ## Requirements
 
 * A web server
