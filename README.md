@@ -13,6 +13,7 @@ Pomodorock is distributed under the terms of the [WTFPL](http://www.wtfpl.net/).
 
 ## Usage
 
+* Browse [http://brunobord.github.io/pomodorock/](http://brunobord.github.io/pomodorock/) **OR**
 * Put this files on a web server where you can access the "index.html" page.
 * Start your Pomodoro timer.
 * Work for 25mn.
