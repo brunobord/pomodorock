@@ -164,8 +164,7 @@ $(document).ready(function() {
 	});
 	$('#restore').click(function() {
 		localStorage.loads($('textarea#dbcontent').val());
-		$('.on-restore, .on-backup, textarea#dbcontent, .dbcontent').hide();
-		window.setTimeout(refresh, 1500);
+		var timeId = window.setTimeout(function() {document.location.href = '.';}, 1500);
 	})
 
 });
@@ -217,7 +216,6 @@ function getStats() {
 }
 
 function refresh() {
-	console.log('refresh');
 	refreshKey('pomodoros');
 	refreshKey('interruptions');
 	getStats();
