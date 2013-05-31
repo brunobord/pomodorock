@@ -79,7 +79,7 @@ $(document).ready(function() {
 
 	$('.btn-start').click(function() {
 		$('.alert').hide();
-		time = moment().startOf('hour').add('seconds', $(this).attr('data-time'));
+		time = moment().startOf('hour').add('minutes', $(this).attr('data-time'));
 		alert_name = $(this).attr('data-alert-name');
 		$('#time').html(time.format('mm:ss'));
 		interval = setInterval("updateTimer()", 1000);
