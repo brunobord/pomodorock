@@ -8,8 +8,8 @@ Pomodorock is distributed under the terms of the [WTFPL](http://www.wtfpl.net/).
 
 ## Requirements
 
-* A web server
 * A modern HTML5-capable browser (canvas, localStorage, <audio> API etc.)
+* Optional: A web server
 
 ## Usage
 
