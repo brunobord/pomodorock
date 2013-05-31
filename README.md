@@ -31,7 +31,7 @@ Everything, I mean **EVERYTHING** you put in this tracker is stored locally in
 ### Don't mess with the keys/values
 
 You can inspect the localStorage keys and values, but please don't mess with
-it or you may lose data. This program is using [BankersBox](https://github.com/twilio/BankersBox)
+it or you may lose data. This program is using [BankersBox](https//github.com/twilio/BankersBox)
 module to store counters. Any manual operation on it may break something.
 
 ### Changing location
@@ -49,3 +49,15 @@ will result the same.
 
 **NOTE** : I know it's a bit annoying. I'm going to address this issue as soon
 as possible by allowing users to backup/restore databases.
+
+---
+
+## Uses and abuses
+
+* [Twitter Bootstrap](http://twitter.github.io/bootstrap/)
+* [jQuery](http://jquery.com/)
+* [Moment.js](http://momentjs.com/)
+* [jQuery sparklines](http://omnipotent.net/jquery.sparkline/)
+* [BankersBox](https//github.com/twilio/BankersBox)
+* [Tada Audio file](http://www.freesound.org/people/jobro/sounds/60445/) by Jobro (CC-BY License)
+
