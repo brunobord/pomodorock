@@ -54,14 +54,25 @@ the index file and static resources, it will reset your stats down to zero.
 Well, your "old" stats are not gone, they're just still linked to your browser
 profile and URL. Simply browsing the old URL will help you find it out again.
 
+Simply Backup on the former location before moving to the new one.
+
 ### Changing browser / computer
 
 Switching from a browser to another is equivalent to changing this page
 location. Not the same profile -> no data. And going from a computer to another
 will result the same.
 
-**NOTE** : I know it's a bit annoying. I'm going to address this issue as soon
-as possible by allowing users to backup/restore databases.
+Simply Backup on the former computer before moving to the new one.
+
+
+## Let me help you
+
+We now have a Database *Backup/Restore* feature. The whole localStorage database
+can be saved as a simple string of text, and restore.
+
+**SERIOUS WARNING**: Carefully follow the given instructions, or your backup
+may be severly damaged. You **MUST** be sure that your copy-paste operation has
+kept the backup intact.
 
 ---
 
