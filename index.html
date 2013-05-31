@@ -142,8 +142,6 @@ function getStats() {
 	};
 
 	var data = zip([pomodoros, interruptions]);
-	console.log(pomodoros);
-	console.log(interruptions);
 
 	$('.bar').sparkline(data, { type: 'bar' });
 }
