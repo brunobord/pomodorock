@@ -18,6 +18,9 @@
 		padding-top: 1em;
    		border-top: 1px solid #aaa;
    	}
+   	section {
+   		margin-bottom: .5em;
+   	}
 </style>
 </head>
 <body>
@@ -63,6 +66,30 @@
 			</div>
 		</section>
 
+		<section class="row">
+			<div class="span12">
+				<button class="btn" id="db-operations"><i class="icon-hdd"></i>DB operations</button>
+			</div>
+		</section>
+
+		<section class="row">
+			<div class="span3">
+				<div class="hide db-operations">
+					<h3>Database operations</h3>
+					<button id="backup" class="btn"><i class="icon-share"></i> Backup</button>
+					<button id="restore-start" class="btn"><i class="icon-download-alt"></i> Restore</button>
+				</div>
+			</div>
+
+			<div class="span9">
+				<p class="on-backup hide">Copy-paste this text and store it somewhere to backup your DB.</p>
+				<p class="alert alert-error on-backup hide">Keep it <strong>INTACT</strong>, or you'll be in <strong>TROUBLE</strong>.</p>
+				<p class="alert alert-info on-restore hide">Paste your previous backup here and click on "Restore Me"</p>
+				<textarea name="dbcontent" id="dbcontent" rows="10" class="hide span9"></textarea>
+				<p><button id="restore" class="btn btn-danger on-restore hide"><i class="icon-download-alt icon-white"></i>Restore Me</button></p>
+			</div>
+		</section>
+
 		<section class="page-footer row">
 			<p><a href="https://github.com/brunobord/pomodorock/">Pomodorock</a> is &copy; 2013 - Bruno Bord. Fetch and fork it,
 				it's Free as in Speech and Beer (WTFPL) - <a href="https://github.com/brunobord/pomodorock/blob/gh-pages/README.md">For usage, warnings and such, please read the README</a>
@@ -81,6 +108,19 @@ var time = moment().startOf('hour').add('minutes', 25);
 var alert_name = "pomodoro";
 var interval;
 var bb = new BankersBox();
+
+Object.getPrototypeOf(localStorage).dumps = function() {
+	return JSON.stringify(this);
+};
+Object.getPrototypeOf(localStorage).loads = function(str, clear) {
+	if (clear == true)
+		this.clear();
+	var doc = JSON.parse(str);
+	for (var i = 0; i < Object.keys(doc).length; i++) {
+		key = Object.keys(doc)[i];
+		this.setItem(key, doc[key]);
+	};
+};
 
 function zip(arrays) {
     return arrays[0].map(function(_,i){
@@ -111,6 +151,22 @@ $(document).ready(function() {
 	$('.decr').click(function() {
 		decrementCounter($(this))
 	});
+
+	$('#db-operations').click(function() { $('.db-operations').toggle();})
+	$('#backup').click(function() {
+		$('textarea#dbcontent').val(localStorage.dumps());
+		$('.on-restore').hide();
+		$('.on-backup, textarea#dbcontent').show();
+	});
+	$('#restore-start').click(function() {
+		$('.on-backup').hide();
+		$('.on-restore, textarea#dbcontent').show();
+	});
+	$('#restore').click(function() {
+		localStorage.loads($('textarea#dbcontent').val());
+		$('.on-restore, .on-backup, textarea#dbcontent').hide();
+		window.setTimeout(refresh, 1000);
+	})
 
 });
 
@@ -156,12 +212,12 @@ function getStats() {
 	};
 
 	var data = zip([pomodoros, interruptions]);
-	console.log(data);
 
 	$('.bar').sparkline(data.slice(-20), { type: 'bar' });
 }
 
 function refresh() {
+	console.log('refresh');
 	refreshKey('pomodoros');
 	refreshKey('interruptions');
 	getStats();
