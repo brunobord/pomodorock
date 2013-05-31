@@ -143,22 +143,24 @@ function refreshKey(key) {
 function getStats() {
 	var pomodoros = [];
 	var interruptions = [];
-	var keys = bb.keys();
-	keys.sort();
+	var bbkeys = bb.keys();
+	bbkeys.sort();
 
-	for (var i = 0; i < keys.length; i++) {
-		var key = keys[i];
+	for (var i = 0; i < bbkeys.length; i++) {
+		var key = bbkeys[i];
 		if (key.indexOf(":pomodoros") !== -1) {
 			pomodoros.push(bb.get(key));
-		}
-		if (key.indexOf(":interruptions") !== -1) {
+		} else if (key.indexOf(":interruptions") !== -1) {
 			interruptions.push(bb.get(key));
+		} else {
+			console.log(key);
 		}
 	};
 
 	var data = zip([pomodoros, interruptions]);
+	console.log(data);
 
-	$('.bar').sparkline(data, { type: 'bar' });
+	$('.bar').sparkline(data.slice(-20), { type: 'bar' });
 }
 
 function refresh() {
