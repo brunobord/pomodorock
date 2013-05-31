@@ -13,8 +13,14 @@ Pomodorock is distributed under the terms of the [WTFPL](http://www.wtfpl.net/).
 
 ## Usage
 
+### Install options
+
 * Browse [http://brunobord.github.io/pomodorock/](http://brunobord.github.io/pomodorock/) **OR**
-* Put this files on a web server where you can access the "index.html" page.
+* Put this files on a web server where you can access the "index.html" page **OR**
+* Fork the project and host it on github: ``https://username.github.io/pomodorock``
+
+### Use
+
 * Start your Pomodoro timer.
 * Work for 25mn.
 * Increment your Pomodoro daily counter.
