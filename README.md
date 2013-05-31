@@ -21,6 +21,8 @@ Pomodorock is distributed under the terms of the [WTFPL](http://www.wtfpl.net/).
 
 ### Use
 
+Follow the [Pomodoro Technique](http://www.pomodorotechnique.com/).
+
 * Start your Pomodoro timer.
 * Work for 25mn.
 * Increment your Pomodoro daily counter.
