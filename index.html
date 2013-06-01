@@ -110,11 +110,13 @@
 <script src="./static/js/jquery.sparkline.min.js"></script>
 <script src="./static/js/bankersbox.min.js"></script>
 <script>
+// variable initialization
 var time = moment().startOf('hour').add('minutes', 25);
 var alert_name = "pomodoro";
 var interval;
 var bb = new BankersBox();
 
+// Prototyping the localStorage object
 Object.getPrototypeOf(localStorage).dumps = function() {
 	return JSON.stringify(this);
 };
@@ -128,59 +130,29 @@ Object.getPrototypeOf(localStorage).loads = function(str, clear) {
 	};
 };
 
+/*
+ * zips arrays into one
+ */
 function zip(arrays) {
     return arrays[0].map(function(_,i){
         return arrays.map(function(array){return array[i]})
     });
 }
 
-$(document).ready(function() {
+// -------- Database section
 
-	refresh();
-
-	$('.btn-start').click(function() {
-		$('.alert').hide();
-		time = moment().startOf('hour').add('minutes', $(this).attr('data-time'));
-		alert_name = $(this).attr('data-alert-name');
-		$('#time').html(time.format('mm:ss'));
-		interval = setInterval("updateTimer()", 1000);
-	});
-
-	$('#btn-stop').click(function() {
-		$('.alert').hide();
-		resetTimer();
-	})
-
-	$('.incr').click(function() {
-		incrementCounter($(this));
-	});
-	$('.decr').click(function() {
-		decrementCounter($(this))
-	});
-
-	$('#db-operations').click(function() { $('.db-operations').toggle(); $('.on-restore, .on-backup, textarea#dbcontent, .dbcontent').hide();})
-	$('#backup').click(function() {
-		$('textarea#dbcontent').val(localStorage.dumps());
-		$('.on-restore').hide();
-		$('.on-backup, textarea#dbcontent').show();
-	});
-	$('#restore-start').click(function() {
-		$('.on-backup').hide();
-		$('.on-restore, textarea#dbcontent').show();
-	});
-	$('#restore').click(function() {
-		localStorage.loads($('textarea#dbcontent').val());
-		var timeId = window.setTimeout(function() {document.location.href = '.';}, 1500);
-	})
-
-});
-
+/*
+ * Increment counter (pomodoros or interruptions)
+ */
 function incrementCounter(element) {
 	var target = element.attr("data-target");
 	bb.incr(getKey(target));
 	refresh();
 }
 
+/*
+ * Decrement counter
+ */
 function decrementCounter(element) {
 	var target = $(element).attr("data-target");
 	bb_key = getKey(target);
@@ -189,10 +161,18 @@ function decrementCounter(element) {
 	refresh();
 }
 
+/*
+ * Helper: get the BankersBox key
+ */
 function getKey(key) {
 	return moment().format('YYYY-MM-DD') + ':' + key;
 }
 
+// -------- UI section
+
+/*
+ * refresh Counter on the webpage
+ */
 function refreshKey(key) {
 	var bb_key = getKey(key);
 	if (!bb.exists(bb_key)) {
@@ -201,6 +181,9 @@ function refreshKey(key) {
 	$('#'+key).html(bb.get(bb_key));
 }
 
+/*
+ * Refresh stats (sparklines)
+ */
 function getStats() {
 	var pomodoros = [];
 	var interruptions = [];
@@ -221,13 +204,20 @@ function getStats() {
 	$('.bar').sparkline(data.slice(-20), { type: 'bar' });
 }
 
+/*
+ * Full refresh of the counters and stats on the UI
+ */
 function refresh() {
 	refreshKey('pomodoros');
 	refreshKey('interruptions');
 	getStats();
 }
 
-/* Timer functions */
+// -------- Timer section
+
+/*
+ * Update timer on the UI
+ */
 function updateTimer() {
 	time.subtract(1, 'seconds');
 	$('#time').html(time.format('mm:ss'));
@@ -236,15 +226,82 @@ function updateTimer() {
 		resetTimer();
 	}
 }
+/*
+ * Reset timer
+ */
 function resetTimer() {
 	$('#time').html('waiting...');
 	clearInterval(interval);
 }
+
+/*
+ * Trigger notification (visual and audio)
+ */
 function notify() {
 	$('#timer-alert-'+alert_name).show();
 	var snd = new Audio("./static/tada.wav");
 	snd.play();
 }
+
+
+$(document).ready(function() {
+
+	refresh();
+
+	// Start button event
+	$('.btn-start').click(function() {
+		// Hide alerts
+		$('.alert').hide();
+		// initialize timer
+		time = moment().startOf('hour').add('minutes', $(this).attr('data-time'));
+		// This "alert_name" object will be shown when the timer will be over.
+		alert_name = $(this).attr('data-alert-name');
+		$('#time').html(time.format('mm:ss'));
+		// Interval call.
+		interval = setInterval("updateTimer()", 1000);
+	});
+
+	// Stop button event
+	$('#btn-stop').click(function() {
+		$('.alert').hide();
+		resetTimer();
+	})
+
+	// Increment button event
+	$('.incr').click(function() {
+		incrementCounter($(this));
+	});
+	// Decrement button event
+	$('.decr').click(function() {
+		decrementCounter($(this))
+	});
+
+	// DB Operation button event
+	$('#db-operations').click(function() {
+		$('.db-operations').toggle();
+		$('.on-restore, .on-backup, textarea#dbcontent, .dbcontent').hide();
+	});
+	// DB Backup button event
+	$('#backup').click(function() {
+		$('textarea#dbcontent').val(localStorage.dumps()); // DB serialization
+		$('.on-restore').hide();
+		$('.on-backup, textarea#dbcontent').show();
+	});
+	// DB Restore "start" button event - display restore interface
+	$('#restore-start').click(function() {
+		$('.on-backup').hide();
+		$('.on-restore, textarea#dbcontent').show();
+	});
+	// Restore button event.
+	$('#restore').click(function() {
+		localStorage.loads($('textarea#dbcontent').val());
+		// Note: this looks like a dirty trick, but it looks like calling refresh()
+		// does not refresh the counter correctly.
+		// FIXME: find a better way.
+		var timeId = window.setTimeout(function() {document.location.href = '.';}, 1500);
+	})
+
+});
 
 </script>
 </body>
