@@ -141,6 +141,12 @@ function zip(arrays) {
 
 // -------- Database section
 
+function migrate() {
+	if (!bb.exists('db:version')) {
+		bb.set('db:version', '1.0.0');
+	}
+}
+
 /*
  * Increment counter (pomodoros or interruptions)
  */
@@ -246,6 +252,7 @@ function notify() {
 
 $(document).ready(function() {
 
+	migrate();
 	refresh();
 
 	// Start button event
