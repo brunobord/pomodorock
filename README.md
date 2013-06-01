@@ -84,4 +84,4 @@ kept the backup intact.
 * [jQuery sparklines](http://omnipotent.net/jquery.sparkline/)
 * [BankersBox](https//github.com/twilio/BankersBox)
 * [Tada Audio file](http://www.freesound.org/people/jobro/sounds/60445/) by Jobro (CC-BY License)
-
+* [Font Awesome](http://fortawesome.github.io/Font-Awesome/) Font icons.
