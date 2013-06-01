@@ -5,6 +5,8 @@ A single webpage pomodoro timer / tracker.
 ## License
 
 Pomodorock is distributed under the terms of the [WTFPL](http://www.wtfpl.net/).
+See the LICENSE file for more details. But basically, it's almost a Public
+Domain thing.
 
 ## Requirements
 
