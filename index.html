@@ -227,9 +227,11 @@ function refresh() {
 function updateTimer() {
 	time.subtract(1, 'seconds');
 	$('#time').html(time.format('mm:ss'));
+	document.title = time.format('mm:ss') + " - Pomodorock";
 	if (time.minute() == 0 && time.seconds() == 0) {
 		notify();
 		resetTimer();
+		document.title = "DONE - Pomodorock";
 	}
 }
 /*
@@ -271,6 +273,7 @@ $(document).ready(function() {
 	// Stop button event
 	$('#btn-stop').click(function() {
 		$('.alert').hide();
+		document.title = "Pomodorock";
 		resetTimer();
 	})
 
