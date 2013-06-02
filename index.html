@@ -124,8 +124,7 @@ Object.getPrototypeOf(localStorage).loads = function(str, clear) {
 	if (clear == true)
 		this.clear();
 	var doc = JSON.parse(str);
-	for (var i = 0; i < Object.keys(doc).length; i++) {
-		key = Object.keys(doc)[i];
+	for (var key in Object.keys(doc)) {
 		this.setItem(key, doc[key]);
 	};
 };
@@ -195,9 +194,8 @@ function getStats() {
 	var interruptions = [];
 	var bbkeys = bb.keys();
 	bbkeys.sort();
-
-	for (var i = 0; i < bbkeys.length; i++) {
-		var key = bbkeys[i];
+	for (var i in bbkeys) {
+		key = bbkeys[i];
 		if (key.indexOf(":pomodoros") !== -1) {
 			pomodoros.push(bb.get(key));
 		} else if (key.indexOf(":interruptions") !== -1) {
