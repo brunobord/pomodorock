@@ -42,6 +42,10 @@
 			<strong>Break is over. Now back to work...</strong>
 		</div>
 
+		<div id="db-migration-alert" class="alert alert-block alert-error fade in hide">
+			<strong>DB Migration error</strong>: Please send <a href="https://github.com/brunobord/pomodorock/issues">a bug report</a>.
+		</div>
+
 		<section class="row">
 			<div class="span4">
 				<h3>Timer</h3>
@@ -139,10 +143,25 @@ function zip(arrays) {
 }
 
 // -------- Database section
-
+// current version
+var __version__ = '1.0.0';
+var __versions__ = {
+}
 function migrate() {
 	if (!bb.exists('db:version')) {
 		bb.set('db:version', '1.0.0');
+	}
+	for (var version in __versions__) {
+		var current_version = bb.get('db:version');
+		if (version > current_version) {
+			var callback = __versions__[version];
+			callback();
+			bb.set('db:version', version);
+		}
+	};
+	// Check if everything's okay
+	if (bb.get('db:version') != __version__) {
+		$('#db-migration-alert').show();
 	}
 }
 
