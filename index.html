@@ -144,8 +144,22 @@ function zip(arrays) {
 
 // -------- Database section
 // current version
-var __version__ = '1.0.0';
+var __version__ = '1.0.1';
 var __versions__ = {
+    '1.0.1': migrate_1_0_1,
+}
+function migrate_1_0_1() {
+    // v1.0.1 -  goal is to build a set of dates - each time we're adding a
+    // pomodoro or an interruption, we're adding this date to the set.
+	var regDate = '^([0-9]{4})-([0-9]{2})-([0-9]{2})';
+	for (var i in bb.keys()) {
+		key = bb.keys()[i];
+		if (key.match(regDate)) {
+			var date = key.slice(0, 10);
+			bb.sadd('index:dates', date);
+		}
+	}
+    return true;
 }
 function migrate() {
 	if (!bb.exists('db:version')) {
@@ -155,8 +169,9 @@ function migrate() {
 		var current_version = bb.get('db:version');
 		if (version > current_version) {
 			var callback = __versions__[version];
-			callback();
-			bb.set('db:version', version);
+			if (callback()) {
+				bb.set('db:version', version);
+			}
 		}
 	};
 	// Check if everything's okay
@@ -171,6 +186,7 @@ function migrate() {
 function incrementCounter(element) {
 	var target = element.attr("data-target");
 	bb.incr(getKey(target));
+	bb.sadd('index:dates', moment().format('YYYY-MM-DD'));
 	refresh();
 }
 
@@ -199,6 +215,7 @@ function getKey(key) {
  */
 function refreshKey(key) {
 	var bb_key = getKey(key);
+	bb.sadd('index:dates', moment().format('YYYY-MM-DD'));
 	if (!bb.exists(bb_key)) {
 		bb.set(bb_key, 0);
 	}
