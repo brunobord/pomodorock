@@ -228,14 +228,19 @@ function refreshKey(key) {
 function getStats() {
 	var pomodoros = [];
 	var interruptions = [];
-	var bbkeys = bb.keys();
-	bbkeys.sort();
-	for (var i in bbkeys) {
-		key = bbkeys[i];
-		if (key.indexOf(":pomodoros") !== -1) {
-			pomodoros.push(bb.get(key));
-		} else if (key.indexOf(":interruptions") !== -1) {
-			interruptions.push(bb.get(key));
+	var dates = bb.smembers('index:dates');
+	dates.sort();
+	for (var i in dates) {
+		key = dates[i];
+		if (bb.exists(key+':pomodoros')) {
+			pomodoros.push(bb.get(key+':pomodoros'));
+		} else {
+			pomodoros.push(0);
+		}
+		if (bb.exists(key+':interruptions')) {
+			interruptions.push(bb.get(key+':interruptions'));
+		} else {
+			interruptions.push(0);
 		}
 	};
 
