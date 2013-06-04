@@ -1,6 +1,7 @@
 # Pomodorock
 
-A single webpage pomodoro timer / tracker.
+A single webpage pomodoro timer / tracker that keeps **ZERO KNOWLEDGE** of your
+data on the server-side.
 
 ## License
 
@@ -17,19 +18,21 @@ Domain thing.
 
 ### Install options
 
-* Browse [http://brunobord.github.io/pomodorock/](http://brunobord.github.io/pomodorock/) **OR**
-* Put this files on a web server where you can access the "index.html" page **OR**
-* Fork the project and host it on github: ``http://username.github.io/pomodorock``
+* Browse [http://brunobord.github.io/pomodorock/](http://brunobord.github.io/pomodorock/),
+*  **OR** Put these files on a web server where you can access the "index.html",
+*  **OR** Fork the project and host it on your own github pages: ``http://username.github.io/pomodorock``
 
 ### Use
 
 Follow the [Pomodoro Technique](http://www.pomodorotechnique.com/).
 
 * Start your Pomodoro timer.
-* Work for 25mn.
+* Work for 25 mn.
 * Increment your Pomodoro daily counter.
-* Have a break.
+* Have a short break (5 mn).
 * Each time somebody or something interrupts you, increment the interruption counter.
+* Every 3 to 4 Pomodoro cycle, have a longer break. Go outside, do something else.
+* Rinse, repeat.
 
 With days of pomodoro logging, you'll see the tiny sparkline graph tracking your
 Pomodoro count.
@@ -39,7 +42,8 @@ Pomodoro count.
 I'm not storing anything, I promise.
 
 Everything, I mean **EVERYTHING** you put in this tracker is stored locally in
-**your** browser localStorage database. Don't worry about your privacy.
+**your** browser localStorage database. Don't worry about your privacy, it's
+safe.
 
 ## Caution
 
@@ -56,7 +60,7 @@ the index file and static resources, it will reset your stats down to zero.
 Well, your "old" stats are not gone, they're just still linked to your browser
 profile and URL. Simply browsing the old URL will help you find it out again.
 
-Simply Backup on the former location before moving to the new one.
+Just **backup** on the former location before moving to the new one.
 
 ### Changing browser / computer
 
@@ -64,7 +68,7 @@ Switching from a browser to another is equivalent to changing this page
 location. Not the same profile -> no data. And going from a computer to another
 will result the same.
 
-Simply Backup on the former computer before moving to the new one.
+Just **backup** on the former computer before moving to the new one.
 
 
 ## Let me help you
