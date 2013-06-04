@@ -261,6 +261,10 @@ function incrementTask(element) {
 function decrementTask(element) {
 	var taskname = $(element).attr('data-target');
 	var pomodoro_key = getKey('pomodoros');
+	// do not decrement
+	if (bb.get(pomodoro_key) == 0) return;
+	if (bb.get('task:'+taskname) == 0) return;
+
 	bb.decr(pomodoro_key);
 	bb.decr('task:'+taskname);
 	bb.decr(getKey('task:'+taskname));
