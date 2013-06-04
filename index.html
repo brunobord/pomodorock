@@ -84,6 +84,7 @@
 					<tr>
 						<th>Daily Tasks</th>
 						<th>Nb.</th>
+						<th>Action</th>
 					</tr>
 					</thead>
 					<tbody id="dailytasks"></tbody>
@@ -157,6 +158,18 @@ if (!String.prototype.startsWith) {
              return this.indexOf(searchString, position) === position;
         }
     });
+}
+// format Polyfill
+if (!String.prototype.format) {
+  String.prototype.format = function() {
+    var args = arguments;
+    return this.replace(/{(\d+)}/g, function(match, number) {
+      return typeof args[number] != 'undefined'
+        ? args[number]
+        : match
+      ;
+    });
+  };
 }
 /*
  * zips arrays into one
@@ -239,6 +252,23 @@ function decrementCounter(element) {
 	refresh();
 }
 
+function incrementTask(element) {
+	var taskname = $(element).attr('data-target');
+	var pomodoro_key = getKey('pomodoros');
+	bb.incr(pomodoro_key);
+	bb.incr('task:'+taskname);
+	bb.incr(getKey('task:'+taskname));
+	refresh();
+}
+function decrementTask(element) {
+	var taskname = $(element).attr('data-target');
+	var pomodoro_key = getKey('pomodoros');
+	bb.decr(pomodoro_key);
+	bb.decr('task:'+taskname);
+	bb.decr(getKey('task:'+taskname));
+	refresh();
+}
+
 /*
  * Helper: get the BankersBox key
  */
@@ -298,9 +328,19 @@ function getStats() {
 	}
 	sortable.sort(function(a, b) { return b[1] - a[1]});
 	$('#dailytasks').empty();
+	var pattern = '<tr><td>{0}</td><td>{1}</td><td>' +
+		'<button class="btn btn-mini btn-danger decr-task" data-target="{0}"><i class="icon icon-minus"></i></button> ' +
+		'<button class="btn btn-mini btn-primary incr-task" data-target="{0}"><i class="icon icon-plus"></i></button>' +
+		'</td></tr>';
 	for (var i in sortable) {
-		$('#dailytasks').append('<tr><td>'+sortable[i][0]+'</td><td>'+sortable[i][1]+'</td></tr>');
+		$('#dailytasks').append(pattern.format(sortable[i][0], sortable[i][1]));
 	}
+	$('.incr-task').click(function() {
+		incrementTask(this);
+	});
+	$('.decr-task').click(function() {
+		decrementTask(this);
+	});
 }
 
 /*
