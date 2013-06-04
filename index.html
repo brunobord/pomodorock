@@ -230,6 +230,7 @@ function getStats() {
 	var interruptions = [];
 	var dates = bb.smembers('index:dates');
 	dates.sort();
+	dates = dates.slice(-20);
 	for (var i in dates) {
 		key = dates[i];
 		if (bb.exists(key+':pomodoros')) {
@@ -246,7 +247,7 @@ function getStats() {
 
 	var data = zip([pomodoros, interruptions]);
 
-	$('.bar').sparkline(data.slice(-20), { type: 'bar' });
+	$('.bar').sparkline(data, { type: 'bar' });
 }
 
 /*
