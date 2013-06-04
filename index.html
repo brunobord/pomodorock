@@ -58,14 +58,15 @@
 				<div>
 					<i class="icon-time"></i> <span id="time">waiting...</span>
 				</div>
-				<div class="bar"></div>
+				<div id="sparkline"></div>
 			</div>
 
 			<div class="span4">
 				<h1 id="pomodoros"></h1>
 				<p>Pomodoros</p>
-				<button class="btn incr btn-primary btn-large" data-target="pomodoros"><i class="icon-plus icon-white"></i></button>
-				<button class="btn decr btn-danger btn-small" data-target="pomodoros"><i class="icon-minus icon-white"></i></button>
+				<p><button class="btn incr btn-primary btn-large" data-target="pomodoros"><i class="icon-plus icon-white"></i></button>
+				<button class="btn decr btn-danger btn-small" data-target="pomodoros"><i class="icon-minus icon-white"></i></button></p>
+				<p><input type="text" id="taskname" name="taskname" placeholder="Enter task name here...">
 
 			</div>
 			<div class="span4">
@@ -187,6 +188,12 @@ function incrementCounter(element) {
 	var target = element.attr("data-target");
 	bb.incr(getKey(target));
 	bb.sadd('index:dates', moment().format('YYYY-MM-DD'));
+	// We increment: we're trying to fetch task name
+	var taskname = $('#taskname').val();
+	if (taskname) {
+		bb.incr('task:'+taskname);
+		bb.incr(getKey('task:'+taskname));
+	}
 	refresh();
 }
 
@@ -198,6 +205,12 @@ function decrementCounter(element) {
 	bb_key = getKey(target);
 	if (bb.get(bb_key) == 0) return;
 	bb.decr(bb_key);
+	// We decrement
+	var taskname = $('#taskname').val();
+	if (taskname) {
+		bb.decr('task:'+taskname);
+		bb.decr(getKey('task:'+taskname));
+	}
 	refresh();
 }
 
@@ -244,10 +257,9 @@ function getStats() {
 			interruptions.push(0);
 		}
 	};
-
 	var data = zip([pomodoros, interruptions]);
+	$('#sparkline').sparkline(data, { type: 'bar' });
 
-	$('.bar').sparkline(data, { type: 'bar' });
 }
 
 /*
