@@ -78,7 +78,21 @@
 		</section>
 
 		<section class="row">
-			<div class="span12">
+			<div class="offset3 span9">
+				<table class="table table-striped">
+					<thead>
+					<tr>
+						<th>Tasks</th>
+						<th>Nb.</th>
+					</tr>
+					</thead>
+					<tbody id="dailytasks"></tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class="row">
+			<div class="span9">
 				<button class="btn" id="db-operations"><i class="icon-hdd"></i> DB operations</button>
 			</div>
 		</section>
@@ -132,7 +146,18 @@ Object.getPrototypeOf(localStorage).loads = function(str, clear) {
 		this.setItem(key, doc[key]);
 	};
 };
-
+// startsWith Polyfill
+if (!String.prototype.startsWith) {
+    Object.defineProperty(String.prototype, 'startsWith', {
+        enumerable: false,
+        configurable: false,
+        writable: false,
+        value: function (searchString, position) {
+            position = position || 0;
+             return this.indexOf(searchString, position) === position;
+        }
+    });
+}
 /*
  * zips arrays into one
  */
@@ -190,7 +215,7 @@ function incrementCounter(element) {
 	bb.sadd('index:dates', moment().format('YYYY-MM-DD'));
 	// We increment: we're trying to fetch task name
 	var taskname = $('#taskname').val();
-	if (taskname) {
+	if (taskname && target == 'pomodoros') {
 		bb.incr('task:'+taskname);
 		bb.incr(getKey('task:'+taskname));
 	}
@@ -207,7 +232,7 @@ function decrementCounter(element) {
 	bb.decr(bb_key);
 	// We decrement
 	var taskname = $('#taskname').val();
-	if (taskname) {
+	if (taskname && target == 'pomodoros') {
 		bb.decr('task:'+taskname);
 		bb.decr(getKey('task:'+taskname));
 	}
@@ -260,6 +285,22 @@ function getStats() {
 	var data = zip([pomodoros, interruptions]);
 	$('#sparkline').sparkline(data, { type: 'bar' });
 
+	// get task pomodoros
+	var sortable = [];
+	var today = moment().format('YYYY-MM-DD');
+	for (var i in bb.keys()) {
+		key = bb.keys()[i];
+		if (key.startsWith(today+':task')) {
+			var nb = bb.get(key);
+			var taskname = key.replace(today+':task:', '');
+			sortable.push([taskname, nb]);
+		}
+	}
+	sortable.sort(function(a, b) { return b[1] - a[1]});
+	$('#dailytasks').empty();
+	for (var i in sortable) {
+		$('#dailytasks').append('<tr><td>'+sortable[i][0]+'</td><td>'+sortable[i][1]+'</td></tr>');
+	}
 }
 
 /*
