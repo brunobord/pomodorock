@@ -28,7 +28,7 @@ function incrementCounter(element) {
 function decrementCounter(element) {
     var target = $(element).attr("data-target");
     bb_key = getKey(target);
-    if (bb.get(bb_key) == 0) return;
+    if (bb.get(bb_key) === 0) return;
     bb.decr(bb_key);
     // We decrement
     var taskname = $('#taskname').val();
@@ -51,8 +51,8 @@ function decrementTask(element) {
     var taskname = $(element).attr('data-target');
     var pomodoro_key = getKey('pomodoros');
     // do not decrement
-    if (bb.get(pomodoro_key) == 0) return;
-    if (bb.get('task:'+taskname) == 0) return;
+    if (bb.get(pomodoro_key) === 0) return;
+    if (bb.get('task:'+taskname) === 0) return;
 
     bb.decr(pomodoro_key);
     bb.decr('task:'+taskname);
@@ -102,7 +102,7 @@ function getStats() {
         } else {
             interruptions.push(0);
         }
-    };
+    }
     var data = zip([pomodoros, interruptions]);
     $('#sparkline').sparkline(data, { type: 'bar' });
 
@@ -117,7 +117,7 @@ function getStats() {
             sortable.push([taskname, nb]);
         }
     }
-    sortable.sort(function(a, b) { return b[1] - a[1]});
+    sortable.sort(function(a, b) { return b[1] - a[1];});
     $('#dailytasks').empty();
     var pattern = '<tr><td>{0}</td><td>{1}</td><td>' +
         '<button class="btn btn-mini btn-danger decr-task" data-target="{0}"><i class="icon icon-minus"></i></button> ' +
@@ -152,7 +152,7 @@ function updateTimer() {
     time.subtract(1, 'seconds');
     $('#time').html(time.format('mm:ss'));
     document.title = time.format('mm:ss') + " - Pomodorock";
-    if (time.minute() == 0 && time.seconds() == 0) {
+    if (time.minute() === 0 && time.seconds() === 0) {
         notify();
         resetTimer();
         document.title = "DONE - Pomodorock";
@@ -176,11 +176,13 @@ function notify() {
 }
 
 
-
+// Main application
 $(document).ready(function() {
 
-    migrate();
-    refresh();
+    migrate(); // apply migration patches
+    refresh(); // refresh UI
+
+    // Event triggers
 
     // Start button event
     $('.btn-start').click(function() {
@@ -200,7 +202,7 @@ $(document).ready(function() {
         $('.alert').hide();
         document.title = "Pomodorock";
         resetTimer();
-    })
+    });
 
     // Increment button event
     $('.incr').click(function() {
@@ -208,7 +210,7 @@ $(document).ready(function() {
     });
     // Decrement button event
     $('.decr').click(function() {
-        decrementCounter($(this))
+        decrementCounter($(this));
     });
 
     // DB Operation button event
@@ -234,6 +236,6 @@ $(document).ready(function() {
         // does not refresh the counter correctly.
         // FIXME: find a better way.
         var timeId = window.setTimeout(function() {document.location.href = '.';}, 1500);
-    })
+    });
 
 });
