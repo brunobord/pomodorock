@@ -4,12 +4,13 @@ Object.getPrototypeOf(localStorage).dumps = function() {
     return JSON.stringify(this);
 };
 Object.getPrototypeOf(localStorage).loads = function(str, clear) {
-    if (clear == true)
+    if (clear)
         this.clear();
     var doc = JSON.parse(str);
-    for (var key in Object.keys(doc)) {
+    for (var i in Object.keys(doc)) {
+        var key = Object.keys(doc)[i];
         this.setItem(key, doc[key]);
-    };
+    }
 };
 // startsWith Polyfill
 if (!String.prototype.startsWith) {

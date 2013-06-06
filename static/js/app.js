@@ -4,6 +4,7 @@
 var time = moment().startOf('hour').add('minutes', 25);
 var alert_name = "pomodoro";
 var interval;
+var refreshInterval;
 var bb = new BankersBox();
 
 /*
@@ -232,10 +233,9 @@ $(document).ready(function() {
     // Restore button event.
     $('#restore').click(function() {
         localStorage.loads($('textarea#dbcontent').val());
-        // Note: this looks like a dirty trick, but it looks like calling refresh()
-        // does not refresh the counter correctly.
-        // FIXME: find a better way.
-        var timeId = window.setTimeout(function() {document.location.href = '.';}, 1500);
+        bb = new BankersBox(); // magically reloads redis-like database
+        refresh();
+        $('.on-restore, .on-backup, textarea#dbcontent, .dbcontent').hide();
     });
 
 });
