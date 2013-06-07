@@ -174,6 +174,12 @@ function notify() {
     $('#timer-alert-'+alert_name).show();
     var snd = new Audio("./static/vendor/tada.wav");
     snd.play();
+    if (window.webkitNotifications) {
+        notification = window.webkitNotifications.createNotification(
+            './static/img/hourglass.png',
+            alert_name.capitalize() + ' is done', 'Your {0} is done, you can move along a do something else...'.format(alert_name));
+        notification.show();
+    }
 }
 
 
@@ -187,6 +193,14 @@ $(document).ready(function() {
 
     // Start button event
     $('.btn-start').click(function() {
+
+        // Trigger HTML5 notifications
+        if (window.webkitNotifications) {
+            if (window.webkitNotifications.checkPermission() !== 0) { // 0 is PERMISSION_ALLOWED
+                window.webkitNotifications.requestPermission();
+              }
+        }
+
         // Hide alerts
         $('.alert').hide();
         // initialize timer
