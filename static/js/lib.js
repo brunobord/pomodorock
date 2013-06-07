@@ -39,6 +39,12 @@ if (!String.prototype.format) {
 String.prototype.capitalize = function(){
     return this.replace( /(^|\s)([a-z])/g , function(m,p1,p2){ return p1+p2.toUpperCase(); } );
 };
+String.prototype.sanitize = function() {
+    var temp = document.createElement("div");
+    temp.innerHTML = this;
+    var sanitized = temp.textContent || temp.innerText;
+    return sanitized;
+}
 /*
  * zips arrays into one
  */

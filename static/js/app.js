@@ -177,9 +177,21 @@ function notify() {
     if (window.webkitNotifications) {
         notification = window.webkitNotifications.createNotification(
             './static/img/hourglass.png',
-            alert_name.capitalize() + ' is done', 'Your {0} is done, you can move along a do something else...'.format(alert_name));
+            alert_name.capitalize() + ' is done', $('#timer-alert-'+alert_name).html().sanitize());
+        notification.onclose = function() {
+            resetInterface();
+        };
         notification.show();
     }
+}
+
+/*
+ * Reset the alert interface
+ */
+function resetInterface() {
+    $('.alert').hide();
+    document.title = "Pomodorock";
+    resetTimer();
 }
 
 
@@ -214,9 +226,7 @@ $(document).ready(function() {
 
     // Stop button event
     $('#btn-stop').click(function() {
-        $('.alert').hide();
-        document.title = "Pomodorock";
-        resetTimer();
+        resetInterface();
     });
 
     // Increment button event
