@@ -127,6 +127,7 @@ function getStats() {
     for (var i in sortable) {
         $('#dailytasks').append(pattern.format(sortable[i][0], sortable[i][1]));
     }
+    // Sure, new buttons in the DOM: let's trigger their click event.
     $('.incr-task').click(function() {
         incrementTask(this);
     });
