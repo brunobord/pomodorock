@@ -44,12 +44,50 @@ String.prototype.sanitize = function() {
     temp.innerHTML = this;
     var sanitized = temp.textContent || temp.innerText;
     return sanitized;
-}
+};
 /*
  * zips arrays into one
  */
 function zip(arrays) {
     return arrays[0].map(function(_,i){
-        return arrays.map(function(array){return array[i]})
+        return arrays.map(function(array){return array[i]});
     });
 }
+
+// Prototyping BankersBox... Because you need to add business intelligence to this.
+// Increment counter, the smarter way
+BankersBox.prototype.incrementCounter = function(date, type, taskname) {
+    this.incr(date+':'+type);
+    this.sadd('index:dates', date);
+    if (taskname && type == 'pomodoros') {
+        this.incr('task:'+taskname);
+        this.incr(date+':task:'+taskname);
+    }
+
+};
+// Little helper for pomodoros
+BankersBox.prototype.pomodoro = function(date, taskname) {
+    this.incrementCounter(date, 'pomodoros', taskname);
+};
+// Little helper for interruptions
+BankersBox.prototype.interruption = function(date) {
+    this.incrementCounter(date, 'interruptions', null);
+};
+// Decrement counter, the smarter way
+BankersBox.prototype.decrementCounter = function(date, type, taskname) {
+    bb_key = date+':'+type;
+    if (this.get(bb_key) === 0) return;
+    this.decr(bb_key);
+    if (taskname && type == 'pomodoros') {
+        this.decr('task:'+taskname);
+        this.decr(date+':task:'+taskname);
+    }
+};
+// Little helper for pomodoros
+BankersBox.prototype.pomodown = function(date, taskname) {
+    this.decrementCounter(date, 'pomodoros', taskname);
+};
+// Little helper for interruptions
+BankersBox.prototype.interrupdown = function(date, taskname) {
+    this.decrementCounter(date, 'interruptions', taskname);
+};

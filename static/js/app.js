@@ -12,14 +12,8 @@ var bb = new BankersBox();
  */
 function incrementCounter(element) {
     var target = element.attr("data-target");
-    bb.incr(getKey(target));
-    bb.sadd('index:dates', moment().format('YYYY-MM-DD'));
-    // We increment: we're trying to fetch task name
     var taskname = $('#taskname').val();
-    if (taskname && target == 'pomodoros') {
-        bb.incr('task:'+taskname);
-        bb.incr(getKey('task:'+taskname));
-    }
+    bb.incrementCounter(moment().format('YYYY-MM-DD'), target, taskname);
     refresh();
 }
 
@@ -28,36 +22,19 @@ function incrementCounter(element) {
  */
 function decrementCounter(element) {
     var target = $(element).attr("data-target");
-    bb_key = getKey(target);
-    if (bb.get(bb_key) === 0) return;
-    bb.decr(bb_key);
-    // We decrement
     var taskname = $('#taskname').val();
-    if (taskname && target == 'pomodoros') {
-        bb.decr('task:'+taskname);
-        bb.decr(getKey('task:'+taskname));
-    }
+    bb.decrementCounter(moment().format('YYYY-MM-DD'), target, taskname);
     refresh();
 }
 
 function incrementTask(element) {
     var taskname = $(element).attr('data-target');
-    var pomodoro_key = getKey('pomodoros');
-    bb.incr(pomodoro_key);
-    bb.incr('task:'+taskname);
-    bb.incr(getKey('task:'+taskname));
+    bb.pomodoro(moment().format('YYYY-MM-DD'), taskname);
     refresh();
 }
 function decrementTask(element) {
     var taskname = $(element).attr('data-target');
-    var pomodoro_key = getKey('pomodoros');
-    // do not decrement
-    if (bb.get(pomodoro_key) === 0) return;
-    if (bb.get('task:'+taskname) === 0) return;
-
-    bb.decr(pomodoro_key);
-    bb.decr('task:'+taskname);
-    bb.decr(getKey('task:'+taskname));
+    bb.pomodown(moment().format('YYYY-MM-DD'), taskname);
     refresh();
 }
 
