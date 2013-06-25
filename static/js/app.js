@@ -45,6 +45,21 @@ function getKey(key) {
     return moment().format('YYYY-MM-DD') + ':' + key;
 }
 
+/*
+ * Helper: only get the task keys
+ */
+function getTaskKeys() {
+    var regex = /\d{4}-\d{2}-\d{2}:task/;
+    var result = [];
+    for (var i in bb.keys()) {
+        key = bb.keys()[i];
+        if (regex.exec(key)) {
+            result.push(key);
+        }
+    }
+    return result;
+}
+
 // -------- UI section
 
 /*
@@ -85,24 +100,26 @@ function getStats() {
     $('#sparkline').sparkline(data, { type: 'bar' });
 
     // get task pomodoros
-    var sortable = [];
+    var sortable_daily = [];
     var today = moment().format('YYYY-MM-DD');
-    for (var i in bb.keys()) {
-        key = bb.keys()[i];
+    var task_keys = getTaskKeys();
+    for (var i in getTaskKeys()) {
+        key = task_keys[i];
         if (key.startsWith(today+':task')) {
             var nb = bb.get(key);
             var taskname = key.replace(today+':task:', '');
-            sortable.push([taskname, nb]);
+            sortable_daily.push([taskname, nb]);
         }
+        //
     }
-    sortable.sort(function(a, b) { return b[1] - a[1];});
+    sortable_daily.sort(function(a, b) { return b[1] - a[1];});
     $('#dailytasks').empty();
     var pattern = '<tr><td>{0}</td><td>{1}</td><td>' +
         '<button class="btn btn-mini btn-danger decr-task" data-target="{0}"><i class="icon icon-minus"></i></button> ' +
         '<button class="btn btn-mini btn-primary incr-task" data-target="{0}"><i class="icon icon-plus"></i></button>' +
         '</td></tr>';
-    for (var i in sortable) {
-        $('#dailytasks').append(pattern.format(sortable[i][0], sortable[i][1]));
+    for (var i in sortable_daily) {
+        $('#dailytasks').append(pattern.format(sortable_daily[i][0], sortable_daily[i][1]));
     }
     // Sure, new buttons in the DOM: let's trigger their click event.
     $('.incr-task').click(function() {
@@ -111,6 +128,8 @@ function getStats() {
     $('.decr-task').click(function() {
         decrementTask(this);
     });
+
+
 }
 
 /*
