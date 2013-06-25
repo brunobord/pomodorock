@@ -144,9 +144,11 @@ function getStats() {
 
     // sort weekly scores
     var sortable_weekly = [];
+    var weekly_total = 0;
     for (key in weekly_scores) {
         var value = weekly_scores[key];
         sortable_weekly.push([key, value]);
+        weekly_total += value;
     }
 
     sortable_weekly.sort(function(a, b) { return b[1] - a[1];});
@@ -155,6 +157,8 @@ function getStats() {
     for (var i in sortable_weekly) {
         $('#weeklytasks').append(pattern.format(sortable_weekly[i][0], sortable_weekly[i][1]));
     }
+    var pattern = '<tr class="info"><td><strong>{0}</strong></td><td><strong>{1}</strong></td></tr>';
+    $('#weeklytasks').append(pattern.format('Total', weekly_total));
 
 }
 
