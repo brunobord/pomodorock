@@ -99,11 +99,14 @@ function getStats() {
     var data = zip([pomodoros, interruptions]);
     $('#sparkline').sparkline(data, { type: 'bar' });
 
+    var week_meta = getWeekMeta();
+
     // get task pomodoros
     var sortable_daily = [];
+    var weekly_scores = {};
     var today = moment().format('YYYY-MM-DD');
     var task_keys = getTaskKeys();
-    for (var i in getTaskKeys()) {
+    for (var i in task_keys) {
         key = task_keys[i];
         if (key.startsWith(today+':task')) {
             var nb = bb.get(key);
@@ -111,7 +114,17 @@ function getStats() {
             sortable_daily.push([taskname, nb]);
         }
         //
+        if (key.slice(0, 10) <= week_meta.end && key.slice(0, 10) >= week_meta.start) {
+            var taskname = key.slice(16);
+            var value = 0;
+            if (taskname in weekly_scores) {
+                value = weekly_scores[taskname];
+            }
+            value += bb.get(key);
+            weekly_scores[taskname] = value;
+        }
     }
+
     sortable_daily.sort(function(a, b) { return b[1] - a[1];});
     $('#dailytasks').empty();
     var pattern = '<tr><td>{0}</td><td>{1}</td><td>' +
@@ -129,6 +142,19 @@ function getStats() {
         decrementTask(this);
     });
 
+    // sort weekly scores
+    var sortable_weekly = [];
+    for (key in weekly_scores) {
+        var value = weekly_scores[key];
+        sortable_weekly.push([key, value]);
+    }
+
+    sortable_weekly.sort(function(a, b) { return b[1] - a[1];});
+    $('#weeklytasks').empty();
+    var pattern = '<tr><td>{0}</td><td>{1}</td></tr>';
+    for (var i in sortable_weekly) {
+        $('#weeklytasks').append(pattern.format(sortable_weekly[i][0], sortable_weekly[i][1]));
+    }
 
 }
 

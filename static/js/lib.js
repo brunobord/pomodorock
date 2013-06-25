@@ -91,3 +91,12 @@ BankersBox.prototype.pomodown = function(date, taskname) {
 BankersBox.prototype.interrupdown = function(date, taskname) {
     this.decrementCounter(date, 'interruptions', taskname);
 };
+
+// Time functions
+function getWeekMeta(date) {
+    var result = {};
+    var start = moment().startOf('week');
+    result.start = moment(start.toDate()).add(1, 'day').format('YYYY-MM-DD');
+    result.end = moment(start.toDate()).add(7, 'day').format('YYYY-MM-DD');
+    return result;
+}
