@@ -1,9 +1,10 @@
 // Migration
 // current version
-var __version__ = '1.0.1';
+var __version__ = '1.1.0';
 var __versions__ = {
     '1.0.1': migrate_1_0_1,
-}
+     '1.1.0': migrate_1_1_0
+};
 function migrate_1_0_1() {
     // v1.0.1 -  goal is to build a set of dates - each time we're adding a
     // pomodoro or an interruption, we're adding this date to the set.
@@ -17,10 +18,19 @@ function migrate_1_0_1() {
     }
     return true;
 }
+function migrate_1_1_0() {
+    // v1.1.0 - goal is to get cleaner stats.
+    for (var i in bb.keys()) {
+        key = bb.keys()[i];
+        bb.wipezerotask(key);
+    }
+    return true;
+}
 function migrate() {
     if (!bb.exists('db:version')) {
         bb.set('db:version', '1.0.0');
     }
+    console.log('Migration starting at: ' + bb.get('db:version'));
     for (var version in __versions__) {
         var current_version = bb.get('db:version');
         if (version > current_version) {
@@ -29,7 +39,8 @@ function migrate() {
                 bb.set('db:version', version);
             }
         }
-    };
+    }
+    console.log('Migration is now: ' + bb.get('db:version'));
     // Check if everything's okay
     if (bb.get('db:version') != __version__) {
         $('#db-migration-alert').show();

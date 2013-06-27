@@ -94,7 +94,7 @@ BankersBox.prototype.interrupdown = function(date, taskname) {
     this.decrementCounter(date, 'interruptions', taskname);
 };
 BankersBox.prototype.wipezerotask = function(key) {
-    if (this.get(key) <= 0 && key.indexOf('task:') !== -1) {
+    if (key !== undefined && key.indexOf('task:') !== -1 && this.get(key) <= 0) {
         this.del(key);
     }
 };
