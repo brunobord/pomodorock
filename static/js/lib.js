@@ -76,14 +76,16 @@ BankersBox.prototype.interruption = function(date) {
 // Decrement counter, the smarter way
 BankersBox.prototype.decrementCounter = function(date, type, taskname) {
     bb_key = date+':'+type;
-    if (this.get(bb_key) === 0) return;
+    if (this.get(bb_key) === 0) {
+        return;
+    }
     this.decr(bb_key);
     if (taskname && type == 'pomodoros') {
         this.decr('task:'+taskname);
         this.decr(date+':task:'+taskname);
     }
 };
-// Little helper for pomodoros
+// Pomodown - down on interruptions
 BankersBox.prototype.pomodown = function(date, taskname) {
     this.decrementCounter(date, 'pomodoros', taskname);
 };
@@ -91,6 +93,7 @@ BankersBox.prototype.pomodown = function(date, taskname) {
 BankersBox.prototype.interrupdown = function(date, taskname) {
     this.decrementCounter(date, 'interruptions', taskname);
 };
+
 
 // Time functions
 function getWeekMeta(date) {
