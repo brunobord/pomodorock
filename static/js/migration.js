@@ -1,9 +1,10 @@
 // Migration
 // current version
-var __version__ = '1.1.0';
+var __version__ = '1.1.1';
 var __versions__ = {
     '1.0.1': migrate_1_0_1,
-     '1.1.0': migrate_1_1_0
+    '1.1.0': migrate_1_1_0,
+    '1.1.1': migrate_1_1_1
 };
 function migrate_1_0_1() {
     // v1.0.1 -  goal is to build a set of dates - each time we're adding a
@@ -25,6 +26,12 @@ function migrate_1_1_0() {
         bb.wipezerotask(key);
     }
     return true;
+}
+function migrate_1_1_1() {
+    if (!bb.exists('sys:tour')) {
+        bb.set('sys:tour', false);
+    }
+    return false;
 }
 function migrate() {
     if (!bb.exists('db:version')) {

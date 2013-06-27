@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="./static/vendor/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="./static/vendor/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+<link rel="stylesheet" href="./static/vendor/css/bootstrap-tour.css" media="screen">
 <link href="./static/vendor/css/font-awesome.css" rel="stylesheet" media="screen">
 <link rel="stylesheet" href="./static/css/style.css" media="screen">
 
@@ -13,7 +14,7 @@
 <body>
 	<div class="container">
 		<section class="page-header">
-		<h1>Welcome to your Pomodorock Board!</h1>
+		<h1>Pomodorock Board! <small><button class="btn btn-mini" id="btn-start-tour" title="Click here to start tour"><i class="icon icon-question"></i></button></small></h1>
 		</section>
 
 		<div id="timer-alert-pomodoro" class="alert alert-block alert-error fade in hide">
@@ -32,9 +33,9 @@
 			<div class="span4">
 				<h3>Timer</h3>
 				<div class="btn-toolbar">
-					<button data-time="25" data-alert-name="pomodoro" title="25mn work" class="btn-start btn"><i class="icon-laptop icon-white"></i></button>
-					<button data-time="5" data-alert-name="break" title="5mn short break" class="btn-start btn"><i class="icon-coffee icon-white"></i></button>
-					<button data-time="30" data-alert-name="break" title="30mn long break" class="btn-start btn"><i class="icon-rocket icon-white"></i></button>
+					<button id="btn-pomodoro-start" data-time="25" data-alert-name="pomodoro" title="25mn work" class="btn-start btn"><i class="icon-laptop icon-white"></i></button>
+					<button id="btn-shortbreak-start" data-time="5" data-alert-name="break" title="5mn short break" class="btn-start btn"><i class="icon-coffee icon-white"></i></button>
+					<button id="btn-longerbreak-start" data-time="30" data-alert-name="break" title="30mn long break" class="btn-start btn"><i class="icon-rocket icon-white"></i></button>
 					<button id="btn-stop" class="btn btn-warning"><i class="icon-stop"></i> </button>
 				</div>
 				<div>
@@ -129,12 +130,15 @@
 
 
 <script src="./static/vendor/js/jquery.min.js"></script>
+<script src="./static/vendor/js/jquery.cookie.js"></script>
 <script src="./static/vendor/js/bootstrap.min.js"></script>
 <script src="./static/vendor/js/moment.min.js"></script>
 <script src="./static/vendor/js/jquery.sparkline.min.js"></script>
 <script src="./static/vendor/js/bankersbox.min.js"></script>
+<script src="./static/vendor/js/bootstrap-tour.min.js"></script>
 <script src="./static/js/lib.js"></script>
 <script src="./static/js/migration.js"></script>
 <script src="./static/js/app.js"></script>
+<script src="./static/js/tour.js"></script>
 </body>
 </html>
