@@ -159,6 +159,8 @@ function getStats() {
     }
     var pattern = '<tr class="info"><td><strong>{0}</strong></td><td><strong>{1}</strong></td></tr>';
     $('#weeklytasks').append(pattern.format('Total', weekly_total));
+    // display the week date
+    $('#weeklymeta').html('From {0} to {1}'.format(week_meta.start_date.format('DD/MM'), week_meta.end_date.format('DD/MM')));
 
 }
 

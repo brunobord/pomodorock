@@ -96,7 +96,9 @@ BankersBox.prototype.interrupdown = function(date, taskname) {
 function getWeekMeta(date) {
     var result = {};
     var start = moment().startOf('week');
-    result.start = moment(start.toDate()).add(1, 'day').format('YYYY-MM-DD');
-    result.end = moment(start.toDate()).add(7, 'day').format('YYYY-MM-DD');
+    result.start_date = moment(start.toDate()).add(1, 'day');
+    result.end_date = moment(start.toDate()).add(7, 'day');
+    result.start = result.start_date.format('YYYY-MM-DD');
+    result.end = result.end_date.format('YYYY-MM-DD');
     return result;
 }
