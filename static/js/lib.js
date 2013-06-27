@@ -81,8 +81,8 @@ BankersBox.prototype.decrementCounter = function(date, type, taskname) {
     }
     this.decr(bb_key);
     if (taskname && type == 'pomodoros') {
-        this.decr('task:'+taskname);
-        this.decr(date+':task:'+taskname);
+        this.decr('task:'+taskname); this.wipezerotask('task:'+taskname);
+        this.decr(date+':task:'+taskname); this.wipezerotask(date+':task:'+taskname);
     }
 };
 // Pomodown - down on interruptions
@@ -93,7 +93,11 @@ BankersBox.prototype.pomodown = function(date, taskname) {
 BankersBox.prototype.interrupdown = function(date, taskname) {
     this.decrementCounter(date, 'interruptions', taskname);
 };
-
+BankersBox.prototype.wipezerotask = function(key) {
+    if (this.get(key) <= 0 && key.indexOf('task:') !== -1) {
+        this.del(key);
+    }
+};
 
 // Time functions
 function getWeekMeta(date) {
