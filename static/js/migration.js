@@ -31,7 +31,7 @@ function migrate_1_1_1() {
     if (!bb.exists('sys:tour')) {
         bb.set('sys:tour', false);
     }
-    return false;
+    return true;
 }
 function migrate() {
     if (!bb.exists('db:version')) {
