@@ -1,7 +1,7 @@
 // lib.js
 // Prototyping the localStorage object
 Object.getPrototypeOf(localStorage).dumps = function() {
-    return JSON.stringify(this);
+    return JSON.stringify(this, undefined, 3);
 };
 Object.getPrototypeOf(localStorage).loads = function(str, clear) {
     if (clear)
