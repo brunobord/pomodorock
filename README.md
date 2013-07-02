@@ -92,3 +92,4 @@ kept the backup intact.
 * [Tada Audio file](http://www.freesound.org/people/jobro/sounds/60445/) by Jobro (CC-BY License)
 * [Font Awesome](http://fortawesome.github.io/Font-Awesome/) Font icons.
 * [Hourglass Icon](http://thenounproject.com/noun/hour-glass/?dwn=PD&dwn_icon=13030#icon-No13030) by Maico Amorim, from the Noun Project.
+* [Bootstrap Tour](http://bootstraptour.com)
