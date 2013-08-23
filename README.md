@@ -22,6 +22,27 @@ Domain thing.
 *  **OR** Put these files on a web server where you can access the "index.html",
 *  **OR** Fork the project and host it on your own github pages: ``http://username.github.io/pomodorock``
 
+#### The built-in JS server
+
+You can also install [Node.js](http://nodejs.org) and use the basic server
+included with this project. It is a dead simple [Express](http://expressjs.com)
+app listening to on port 27000.
+
+Install and enjoy:
+
+    npm install && node server.js
+    open http://localhost:27000
+
+#### Python SimpleHTTPServer
+
+Python is awesome ♡.
+
+You can serve this app in a single one command:
+
+    python -m SimpleHTTPServer 27000
+
+(Of course, you can change the port to suit your needs).
+
 ### Use
 
 Follow the [Pomodoro Technique](http://www.pomodorotechnique.com/).
