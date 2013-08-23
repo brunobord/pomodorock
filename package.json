@@ -1,7 +1,7 @@
 {
   "name": "pomodorock",
   "version": "1.1.1",
-  "description": "\"A single webpage pomodoro timer / tracker that keeps ZERO KNOWLEDGE of your data on the server-side.\"",
+  "description": "A single webpage pomodoro timer / tracker that keeps ZERO KNOWLEDGE of your data on the server-side.",
   "private": true,
   "author": "Bruno Bord",
   "license": "WTFPL",
