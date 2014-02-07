@@ -3,9 +3,8 @@
 // variable initialization
 var time = moment().startOf('hour').add('minutes', 25);
 var alert_name = "pomodoro";
-var interval;
-var refreshInterval;
 var bb = new BankersBox();
+var interval;
 
 /*
  * Increment counter (pomodoros or interruptions)
@@ -250,6 +249,7 @@ $(document).ready(function() {
         alert_name = $(this).attr('data-alert-name');
         $('#time').html(time.format('mm:ss'));
         // Interval call.
+        clearInterval(interval);
         interval = setInterval("updateTimer()", 1000);
     });
 
@@ -290,5 +290,4 @@ $(document).ready(function() {
         refresh();
         $('.on-restore, .on-backup, textarea#dbcontent, .dbcontent').hide();
     });
-
 });
