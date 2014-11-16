@@ -250,6 +250,7 @@ $(document).ready(function() {
         alert_name = $(this).attr('data-alert-name');
         $('#time').html(time.format('mm:ss'));
         // Interval call.
+        clearInterval(interval);
         interval = setInterval("updateTimer()", 1000);
     });
 
